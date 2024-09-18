@@ -1,0 +1,13 @@
+{
+  "name": "kombo-deduplication",
+  "version": "1.0.0",
+  "description": "Tech challenge for Senior Software Developer position",
+  "main": "app.js.js",
+  "author": "Marco Pagni",
+  "license": "MIT",
+
+  "scripts": {
+    "watch": "tsc -w"
+  }
+
+}
