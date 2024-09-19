@@ -2,6 +2,8 @@
 
 This project is a tech challenge for a Senior Software Developer position. It involves deduplication of employee data using Prisma and PostgreSQL.
 
+[Source](https://kombo-api.notion.site/Kombo-Write-Deduplication-Take-Home-Challenge-477db0bbca0c4ce89f7f096de4786d88)
+
 ### Prerequisites
 
 - Node.js
