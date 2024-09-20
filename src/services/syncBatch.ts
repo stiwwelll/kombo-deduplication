@@ -3,11 +3,12 @@ import { IncomingEmployeeData } from "../types/incoming_employee";
 
 import { Employee, PrismaClient } from "@prisma/client";
 
-
-export const syncBatch = async (prisma: PrismaClient, batch: IncomingEmployeeData[]) => {
+export const syncBatch = async (
+  prisma: PrismaClient,
+  batch: IncomingEmployeeData[]
+) => {
   const remoteIds = batch.map((data) => data.remote_id);
 
-  // Fetch all existing employees that match the remote IDs in the current batch
   const existingEmployees = await prisma.employee.findMany({
     where: {
       remote_id: { in: remoteIds },
@@ -33,10 +34,12 @@ export const syncBatch = async (prisma: PrismaClient, batch: IncomingEmployeeDat
       if (!currentUser) {
         creates.push(relevantDataFields);
       } else {
+        const { remote_id, first_name, last_name } = currentUser;
+
         const existingDataHash = calculateHash({
-          remote_id: currentUser.remote_id,
-          first_name: currentUser.first_name,
-          last_name: currentUser.last_name,
+          remote_id,
+          first_name,
+          last_name,
         });
 
         if (newHash !== existingDataHash) {
@@ -53,9 +56,9 @@ export const syncBatch = async (prisma: PrismaClient, batch: IncomingEmployeeDat
         }
       }
     }
-    
-    creates.length && await prisma.employee.createMany({ data: creates });
-    updates.length && await prisma.$transaction([...updates]);
+
+    creates.length && (await prisma.employee.createMany({ data: creates }));
+    updates.length && (await prisma.$transaction([...updates]));
 
     console.log(
       `Processed batch with ${creates.length} creates and ${updates.length} updates.`
