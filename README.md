@@ -84,3 +84,12 @@ Environment variables are defined in the `.env`) file. Key variables include:
 1 - To improve the process, we could also save the calculated has value in the database so we can compare it with the incoming hash value. This would reduce the calculation step by one step, however it would require an additional column in the database.
 
 2 - Another consideration could be a caching layer like Redis to store the hash values for a certain period of time to reduce the number of database queries. With this we could check if the hash value of the incoming data is already in the cache and if it is, we can skip the database query entirely.
+
+
+### Last Thoughts about this challenge...
+
+Whereas I believe that with some external services you perhpas do not have any other option as of to periodically check and sync data with the database, I believe that this does not scale in the long run as I suppose that the number of services and datasets will grow over time.
+
+Therefore, whereever possible, I would look into options to have a more event-driven approach to this problem. For example, if the external service is able to send a webhook to our service whenever a new employee is added or updated, we could then update our database in real-time. This would reduce the number of queries to the external service and would also reduce the number of queries to our database.
+
+Furthermore we can look for filtering options in the external service to only get the data that has changed since the last sync. This would also reduce the number of queries to the external service and the number of queries to our database.
